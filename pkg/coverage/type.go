@@ -1,18 +1,18 @@
 package coverage
 
+type Profile struct {
+	targetfile string
+}
+
 type Branch struct {
-	From    int
-	To      int
+	Target  string
+	Start   int
+	Finish  int
 	Covered bool
 }
 
-type Target struct {
-	File     string
-	Branches []Branch
-}
-
 type Result struct {
-	File           string
+	Target         string
 	CoveredLines   int
 	UncoveredLines int
 }

@@ -1,0 +1,70 @@
+package identity
+
+import (
+	"context"
+	errorz "errors"
+
+	"github.com/yesino/pkg/errors"
+	"github.com/yesino/pkg/errors/errcodes"
+	"github.com/yesino/pkg/jwtauth"
+	log "github.com/yesino/pkg/logging"
+	"google.golang.org/grpc/codes"
+
+	"github.com/yesino/pkg/sysmsg"
+)
+
+// Practically copied from yesino-cards' identity package
+
+// Identity contains information extracted from an incoming JWT token about the id of the user calling
+// an API.
+type Identity struct {
+	// A UUID that identifies the current user (A yesino person ID).
+	UserID string
+	// An identifier for the current person the user is acting as (1 user can map to many personas).
+	PersonaID string
+	// An identifier to know the auth type (FakeRock or yesino)
+	Issuer string
+}
+
+// Get retrieves id information from JWT claims embedded in the context.
+func Get(ctx context.Context) (*Identity, error) {
+	claims, ok := jwtauth.GetClaimsFromContext(ctx)
+	if !ok {
+		log.Error(ctx, errorz.New("failed to extract JWT claims from context")).Send()
+		return nil, errors.New(
+			codes.Internal,
+			sysmsg.AuthenticationGenericErrMsg,
+			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
+	}
+
+	customer := claims.GetCustomer()
+	if customer == nil {
+		log.Error(ctx, errorz.New("failed to fetch customer details from JWT claims that is extracted from context")).Send()
+		return nil, errors.New(
+			codes.Internal,
+			sysmsg.AuthenticationGenericErrMsg,
+			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
+	}
+
+	if customer.GetSubject() == "" {
+		log.Error(ctx, errorz.New("failed to fetch subject from JWT claims that is extracted from context")).Send()
+		return nil, errors.New(
+			codes.Internal,
+			sysmsg.AuthenticationGenericErrMsg,
+			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
+	}
+
+	if customer.GetPersona() == nil {
+		log.Error(ctx, errorz.New("failed to fetch persona from JWT claims that is extracted from context")).Send()
+		return nil, errors.New(
+			codes.Internal,
+			sysmsg.AuthenticationGenericErrMsg,
+			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
+	}
+
+	return &Identity{
+		customer.GetSubject(),
+		customer.GetPersona().PersonaID,
+		claims.GetBaseClaims().Issuer,
+	}, nil
+}

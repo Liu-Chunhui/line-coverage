@@ -18,7 +18,7 @@ func TestCalculateOverall(t *testing.T) {
 			name: "ResultFromTestFile",
 			results: []*Result{
 				{
-					File:           testFile,
+					Target:         testFile,
 					CoveredLines:   26,
 					UncoveredLines: 5,
 				},
