@@ -1,8 +1,8 @@
 package fileparser
 
 import (
-	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,8 +10,8 @@ import (
 )
 
 func TestReadLines(t *testing.T) {
-	exec, _ := os.Executable()
-	execPath := filepath.Dir(exec)
+	_, filename, _, _ := runtime.Caller(0)
+	execPath := filepath.Dir(filename)
 	testfile := filepath.Join(execPath, "../../test/data/testcodefile")
 
 	got, err := ReadLines(testfile)

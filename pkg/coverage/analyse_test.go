@@ -1,8 +1,8 @@
 package coverage
 
 import (
-	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
@@ -15,19 +15,23 @@ const (
 )
 
 func TestMapProfileToBranch(t *testing.T) {
-	exec, _ := os.Executable()
-	execPath := filepath.Dir(exec)
+	_, filename, _, _ := runtime.Caller(0)
+	execPath := filepath.Dir(filename)
 	testfile := filepath.Join(execPath, "../../test/data/testcodefile")
+
 	lines, _ := fileparser.ReadLines(testfile)
-	profileLine := "github.com/yesino/line-coverage/test/data/testcodefile:41.21,47.3 2 0"
+	base := filepath.Join(execPath, "../../")
+
+	profileLine := "github.com/yesino/test/data/testcodefile:41.21,47.3 2 0"
 	expected := &Branch{
-		Target:  "github.com/yesino/line-coverage/test/data/testcodefile",
 		Start:   42,
 		Finish:  46,
 		Covered: false,
 	}
 
-	got, err := ConvertProfileToBranch(profileLine, lines)
+	profile, err := ConvertToCoverageProfile(profileLine, "github.com/yesino", base)
+
+	got, err := ConvertProfileToBranch(profile, lines)
 	require.NoError(t, err)
 	assert.Equal(t, expected, got)
 }
@@ -91,11 +95,12 @@ func TestAnalyse(t *testing.T) {
 			target: testFile,
 			branches: []*Branch{
 				{
-					Start:  20,
-					Finish: 10,
+					Start:   20,
+					Finish:  10,
+					Covered: false,
 				},
 			},
-			expectedErr: "branch starting line is behind ending line. Target file: github.com/yesino/example.go, Branch: &{Target: Start:20 Finish:10 Covered:false}",
+			expectedErr: "branch starting line is behind ending line. Target file: github.com/yesino/example.go, Branch: &{Start:20 Finish:10 Covered:false}",
 		},
 	}
 
@@ -104,7 +109,7 @@ func TestAnalyse(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got, err := Analyse(tt.target, tt.branches)
+			got, err := AnalyseTargetFile(tt.target, tt.branches)
 			if len(tt.expectedErr) > 0 {
 				require.Nil(t, got)
 				assert.EqualError(t, err, tt.expectedErr)

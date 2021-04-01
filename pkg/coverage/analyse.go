@@ -2,64 +2,35 @@ package coverage
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 )
 
-// ConvertProfileToBranch splits profileLine into parts and use it to extract Branch data from fine lines
-// profileLine: github.com/yesino/pkg/identity/id.go:30.50,32.9 2 4
-func ConvertProfileToBranch(profileLine string, filelines []string) (*Branch, error) {
-	topLvlParts := strings.Split(profileLine, " ") // github.com/yesino/line-coverage/pkg/identity/id.go:30.50,32.9 2 4
-	statements, err := strconv.Atoi(topLvlParts[1])
-	if err != nil {
-		return nil, err
-	}
-	execution, err := strconv.Atoi(topLvlParts[2])
-	if err != nil {
-		return nil, err
-	}
-	secondLvlParts := strings.Split(topLvlParts[0], ":")   // github.com/yesino/line-coverage/pkg/identity/id.go 30.50,32.9
-	thirdLvlParts := strings.Split(secondLvlParts[1], ",") // 30.50 32.9
-	startParts := strings.Split(thirdLvlParts[0], ".")     // 30 50
-	finishParts := strings.Split(thirdLvlParts[1], ".")    // 32 9
-	startLine, err := strconv.Atoi(startParts[0])          // 30
-	if err != nil {
-		return nil, err
-	}
-	startPosition, err := strconv.Atoi(startParts[1]) // 50
-	if err != nil {
-		return nil, err
-	}
-	finishLine, err := strconv.Atoi(finishParts[0]) // 32
-	if err != nil {
-		return nil, err
-	}
-	finishPosition, err := strconv.Atoi(finishParts[1]) // 9
-	if err != nil {
-		return nil, err
-	}
+// ConvertProfileToBranch adjusts starting and finishing line number from coverage profile,
+// which is to create Branch for calculation later.
+func ConvertProfileToBranch(profile *CoverageProfile, filelines []string) (*Branch, error) {
+	startLine := profile.StartLine
+	finishLine := profile.FinishLine
 
 	start := filelines[startLine-1]
 	// when start position is the end of this line, then skip this line
-	if start[startPosition] == '\n' {
+	if start[profile.StartPosition] == '\n' {
 		startLine += 1
 	}
 
 	finish := filelines[finishLine-1]
-	// check if finish line is nothing but "}", then skip this line
-	if finish[finishPosition-1] == '\n' {
+	// when ending position is the end of the line, then set finish line to previous line
+	if finish[profile.FinishPosition-1] == '\n' {
 		finishLine -= 1
 	}
 
 	return &Branch{
-		Target:  secondLvlParts[0],
 		Start:   startLine,
 		Finish:  finishLine,
-		Covered: statements > 0 && execution > 0,
+		Covered: profile.Statements > 0 && profile.Executions > 0,
 	}, nil
 }
 
-func Analyse(target string, branches []*Branch) (*Result, error) {
+// AnalyseTarget
+func AnalyseTargetFile(target string, branches []*Branch) (*Result, error) {
 	if branches == nil {
 		return nil, fmt.Errorf("target contains empty branches. Target: %s", target)
 	}
