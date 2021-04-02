@@ -1,6 +1,6 @@
 package coverage
 
-func CalculateOverall(results []*Result) float64 {
+func calculateOverall(results []*Result) float64 {
 	totalCoveredLines := 0
 	totalUncoveredLines := 0
 

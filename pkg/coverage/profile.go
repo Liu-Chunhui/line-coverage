@@ -3,13 +3,35 @@ package coverage
 import (
 	"strconv"
 	"strings"
+
+	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
 )
 
-// line: github.com/yesino/example/test/testdata.go:30.50,32.9 2 4
+// loadProfiles maps coverage file to coverageProfile objects
+func loadProfiles(coverageFile string, module string, base string) ([]*coverageProfile, error) {
+	lines, err := fileparser.ReadLines(coverageFile, fileparser.CoverageProfileExcludingRules...)
+	if err != nil {
+		return nil, err
+	}
+
+	var profiles []*coverageProfile
+
+	for _, line := range lines {
+		p, err := mapLineToCoverageProfile(line, module, base)
+		if err != nil {
+			return nil, err
+		}
+		profiles = append(profiles, p)
+	}
+
+	return profiles, nil
+}
+
+// line: github.com/yesino/line-coverage/test/testdata.go:30.50,32.9 2 4
 // module: github.com/yesino
 // base: .
-func ConvertToCoverageProfile(line string, module string, base string) (*CoverageProfile, error) {
-	topLvlParts := strings.Split(line, " ") // github.com/yesino/line-coverage/pkg/identity/id.go:30.50,32.9 2 4
+func mapLineToCoverageProfile(line string, module string, base string) (*coverageProfile, error) {
+	topLvlParts := strings.Split(strings.TrimSpace(line), " ") // github.com/yesino/line-coverage/test/testdata.go:30.50,32.9 2 4
 	statements, err := strconv.Atoi(topLvlParts[1])
 	if err != nil {
 		return nil, err
@@ -18,7 +40,7 @@ func ConvertToCoverageProfile(line string, module string, base string) (*Coverag
 	if err != nil {
 		return nil, err
 	}
-	secondLvlParts := strings.Split(topLvlParts[0], ":")   // github.com/yesino/line-coverage/pkg/identity/id.go 30.50,32.9
+	secondLvlParts := strings.Split(topLvlParts[0], ":")   // github.com/yesino/line-coverage/test/testdata.go 30.50,32.9
 	thirdLvlParts := strings.Split(secondLvlParts[1], ",") // 30.50 32.9
 	startParts := strings.Split(thirdLvlParts[0], ".")     // 30 50
 	finishParts := strings.Split(thirdLvlParts[1], ".")    // 32 9
@@ -41,7 +63,7 @@ func ConvertToCoverageProfile(line string, module string, base string) (*Coverag
 
 	filename := strings.ReplaceAll(secondLvlParts[0], module, base)
 
-	return &CoverageProfile{
+	return &coverageProfile{
 		Target:         secondLvlParts[0],
 		TargetFilename: filename,
 		StartLine:      startLine,

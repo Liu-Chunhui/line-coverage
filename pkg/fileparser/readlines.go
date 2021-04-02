@@ -4,12 +4,13 @@ import (
 	"bufio"
 	"io"
 	"os"
+	"regexp"
 )
 
 // ReadLines converts a file to lines.
 // Each line should contain '\n' in the end
 // len(lines) should match file lines
-func ReadLines(filename string) ([]string, error) {
+func ReadLines(filename string, excludingPatterns ...string) ([]string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
@@ -20,13 +21,39 @@ func ReadLines(filename string) ([]string, error) {
 	reader := bufio.NewReader(file)
 
 	for {
-		bytes, err := reader.ReadString('\n')
-		if err == io.EOF {
-			lines = append(lines, "\n")
-			break
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+
+			return nil, err
 		}
-		lines = append(lines, string(bytes))
+
+		execluded, err := skipLine(line, excludingPatterns...)
+		if err != nil {
+			return nil, err
+		}
+
+		if !execluded {
+			lines = append(lines, string(line))
+		}
 	}
 
 	return lines, nil
+}
+
+func skipLine(line string, patterns ...string) (bool, error) {
+	for _, p := range patterns {
+		match, err := regexp.Match(p, []byte(line))
+		if err != nil {
+			return true, err
+		}
+
+		if match {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }

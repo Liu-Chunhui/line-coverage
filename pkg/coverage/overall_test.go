@@ -32,7 +32,7 @@ func TestCalculateOverall(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got := CalculateOverall(tt.results)
+			got := calculateOverall(tt.results)
 			fmt.Println(got)
 			assert.True(t, test.FloatEquals(tt.expected, got))
 		})
