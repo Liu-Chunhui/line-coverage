@@ -84,7 +84,7 @@ func TestAnalyse(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got, err := AnalyseTargetFile(tt.target, tt.branches)
+			got, err := calculateTargetResult(tt.target, tt.branches)
 			if len(tt.expectedErr) > 0 {
 				require.Nil(t, got)
 				assert.EqualError(t, err, tt.expectedErr)

@@ -6,7 +6,7 @@ import (
 
 // target: github.com/yesino/line-coverage/test/testdata.go
 // branches: [x]*branch from target
-func AnalyseTargetFile(target string, branches []*branch) (*Result, error) {
+func calculateTargetResult(target string, branches []*branch) (*Result, error) {
 	if branches == nil {
 		return nil, fmt.Errorf("target contains empty branches. Target: %s", target)
 	}

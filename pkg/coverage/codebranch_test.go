@@ -18,16 +18,43 @@ func TestMapProfileToBranch(t *testing.T) {
 	lines, _ := fileparser.ReadLines(testfile)
 	base := filepath.Join(execPath, "../../")
 
-	profileLine := "github.com/yesino/test/data/testcodefile:41.21,47.3 2 0"
-	expected := &branch{
-		Start:   42,
-		Finish:  46,
-		Covered: false,
+	tests := []struct {
+		name        string
+		profileLine string
+		expected    *branch
+	}{
+		{
+			name:        "uncoveredLines",
+			profileLine: "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:41.21,47.3 2 0",
+			expected: &branch{
+				Start:   42,
+				Finish:  46,
+				Covered: false,
+			},
+		},
+		{
+			name:        "finishingLineIs},nil",
+			profileLine: "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:65.2,69.8 1 1",
+			expected: &branch{
+				Start:   65,
+				Finish:  69,
+				Covered: true,
+			},
+		},
 	}
 
-	profile, err := mapLineToCoverageProfile(profileLine, "github.com/yesino", base)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 
-	got, err := convertProfileToBranch(profile, lines)
-	require.NoError(t, err)
-	assert.Equal(t, expected, got)
+			profile, err := mapLineToCoverageProfile(tt.profileLine, "github.com/Liu-Chunhui/line-coverage", base)
+			require.NoError(t, err)
+
+			target, branch := convertProfileToBranch(profile, lines)
+			require.NotNil(t, target)
+			assert.NotEmpty(t, target)
+			assert.Equal(t, tt.expected, branch)
+		})
+	}
+
 }
