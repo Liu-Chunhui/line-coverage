@@ -16,7 +16,7 @@ func convertProfileToBranch(profile *coverageProfile, codeInLines []string) (str
 
 	finish := codeInLines[finishLine-1]
 	// when ending position is the end of the line, then set finish line to previous line
-	if strings.TrimSpace(finish) == "}" {
+	if len(strings.TrimSpace(strings.ReplaceAll(finish, "}", ""))) == 0 {
 		finishLine -= 1
 	}
 
