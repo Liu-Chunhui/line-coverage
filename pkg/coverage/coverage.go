@@ -1,8 +1,6 @@
 package coverage
 
 import (
-	"fmt"
-
 	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
 )
 
@@ -48,11 +46,6 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 	var results []*Result
 
 	for target, branches := range targetBranches {
-
-		for _, t := range branches {
-			fmt.Printf("%+v\n", t)
-		}
-
 		r, err := calculateTargetResult(target, branches)
 		if err != nil {
 			return nil, err
