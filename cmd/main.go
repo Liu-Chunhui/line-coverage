@@ -1,11 +1,12 @@
 package main
 
 import (
-	"log"
 	"os"
 
-	"github.com/Liu-Chunhui/line-coverage/cmd/report"
+	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/Liu-Chunhui/line-coverage/cmd/report"
 )
 
 func main() {
@@ -38,8 +39,15 @@ func main() {
 				Usage:    "the root level location of the files are described in the coverage profile.",
 				Required: true,
 			},
+			&cli.BoolFlag{
+				Name:    "debug",
+				Aliases: []string{"d"},
+				Usage:   "enable debug model. More details is provided.",
+			},
 		},
 		Action: func(c *cli.Context) error {
+			initLogging(c.Bool("debug"))
+
 			report.Report(
 				c.String("coverprofile"),
 				c.String("module"),
@@ -53,5 +61,17 @@ func main() {
 	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func initLogging(debugMode bool) {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+
+	if debugMode {
+		log.SetLevel(log.DebugLevel)
+		log.Debug("debug model is enabled.")
+	} else {
+		log.SetLevel(log.InfoLevel)
 	}
 }

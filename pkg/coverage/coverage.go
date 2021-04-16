@@ -1,16 +1,21 @@
 package coverage
 
 import (
+	"fmt"
+
 	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
+	log "github.com/sirupsen/logrus"
 )
 
 func Calculate(profileFilename string, module string, basePath string) ([]*Result, error) {
+	log.Info(fmt.Sprintf("Processing profile file: %s", profileFilename))
 	// scan coverage.out to build []*coverageProfile
 	profiles, err := loadProfiles(profileFilename, module, basePath)
 	if err != nil {
 		return nil, err
 	}
 
+	log.Info("Building profile targets map")
 	// map key: code filename
 	maps := make(map[string][]*coverageProfile)
 
@@ -23,11 +28,13 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 		}
 	}
 
+	log.Info("Building target branches map")
 	// code in lines
 	targetBranches := make(map[string][]*branch)
 
 	// loop map
 	for filename, coverageProfiles := range maps {
+		log.Debug(fmt.Sprintf("target file: %s", filename))
 		codeInLines, err := fileparser.ReadLines(filename)
 		if err != nil {
 			return nil, err
@@ -43,6 +50,7 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 		}
 	}
 
+	log.Debug("Building results")
 	var results []*Result
 
 	for target, branches := range targetBranches {
