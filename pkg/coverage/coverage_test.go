@@ -29,9 +29,9 @@ func TestCalculate(t *testing.T) {
 			base:            filepath.Join(execPath, "../../"),
 			expected: []*Result{
 				{
-					Target:         "github.com/anzx/fabric-accounts/test/data/client.go",
-					CoveredLines:   63,
-					UncoveredLines: 7,
+					Target:         "github.com/anzx/fabric-accounts/test/data/main.go",
+					CoveredLines:   0,
+					UncoveredLines: 68,
 				},
 			},
 		},

@@ -83,15 +83,17 @@ func startLineAdjustment(codeInLines []string, startLine int, position int) int 
 func startEmptyLineAdjustment(codeInLines []string, startLine int, adjustment int) int {
 	line := codeInLines[startLine-1]
 	if len(strings.TrimSpace(strings.ReplaceAll(line, "{", ""))) == 0 {
-		return finishLineAdjustment(codeInLines, startLine+1, adjustment+1)
+		return startEmptyLineAdjustment(codeInLines, startLine+1, adjustment+1)
 	}
 
 	return adjustment
 }
 
 func finishLineAdjustment(codeInLines []string, finishLine int, adjustment int) int {
-	line := codeInLines[finishLine-1]
-	if len(strings.TrimSpace(strings.ReplaceAll(line, "}", ""))) == 0 {
+	line := strings.TrimSpace(codeInLines[finishLine-1]) // trim \t \n
+	line = strings.ReplaceAll(line, "})", "")            // remove })
+	line = strings.ReplaceAll(line, "}", "")             // remove multiple }
+	if len(line) == 0 {
 		return finishLineAdjustment(codeInLines, finishLine-1, adjustment+1)
 	}
 
