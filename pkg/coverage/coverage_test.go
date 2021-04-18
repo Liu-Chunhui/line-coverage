@@ -16,7 +16,7 @@ func TestCalculate(t *testing.T) {
 	execPath := filepath.Dir(filename)
 
 	tests := []struct {
-		name            string //profileFilename string, module string, basePath string
+		name            string // profileFilename string, module string, basePath string
 		profileFilename string
 		module          string
 		base            string
@@ -25,13 +25,13 @@ func TestCalculate(t *testing.T) {
 		{
 			name:            "test",
 			profileFilename: filepath.Join(execPath, "../../test/data/testcodefile.out"),
-			module:          "github.com/Liu-Chunhui/line-coverage",
+			module:          "github.com/anzx/fabric-accounts",
 			base:            filepath.Join(execPath, "../../"),
 			expected: []*Result{
 				{
-					Target:         "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile",
-					CoveredLines:   26,
-					UncoveredLines: 5,
+					Target:         "github.com/anzx/fabric-accounts/test/data/client.go",
+					CoveredLines:   63,
+					UncoveredLines: 7,
 				},
 			},
 		},
@@ -39,7 +39,6 @@ func TestCalculate(t *testing.T) {
 
 	for _, tt := range tests {
 		tt := tt
-
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 

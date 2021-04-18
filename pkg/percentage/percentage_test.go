@@ -18,9 +18,14 @@ func TestDisplay(t *testing.T) {
 			expected: "83.9%",
 		},
 		{
-			name:     "0.8385",
-			value:    0.8385,
+			name:     "0.8384",
+			value:    0.8384,
 			expected: "83.8%",
+		},
+		{
+			name:     "0.4615",
+			value:    0.4615,
+			expected: "46.2%",
 		},
 	}
 

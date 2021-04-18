@@ -60,6 +60,50 @@ func TestAnalyse(t *testing.T) {
 			},
 		},
 		{
+			name:   "WhenFinishOverlapWithStartThenShouldBeAdjusted",
+			target: testFile,
+			branches: []*branch{
+				{
+					Start:   50,
+					Finish:  58,
+					Covered: true,
+				},
+				{
+					Start:   58,
+					Finish:  59,
+					Covered: true,
+				},
+			},
+
+			expectedResult: &Result{
+				Target:         testFile,
+				CoveredLines:   10,
+				UncoveredLines: 0,
+			},
+		},
+		{
+			name:   "WhenLineIsMarkedAsBothCoveredAndUncovered_ThenShouldAdjustToCovered",
+			target: testFile,
+			branches: []*branch{
+				{
+					Start:   69,
+					Finish:  78,
+					Covered: true,
+				},
+				{
+					Start:   78,
+					Finish:  78,
+					Covered: false,
+				},
+			},
+
+			expectedResult: &Result{
+				Target:         testFile,
+				CoveredLines:   10,
+				UncoveredLines: 0,
+			},
+		},
+		{
 			name:   "WhenTargetHasEmptyBranchThenShouldReturnErr",
 			target: testFile,
 

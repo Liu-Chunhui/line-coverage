@@ -11,26 +11,35 @@ func calculateTargetResult(target string, branches []*branch) (*Result, error) {
 		return nil, fmt.Errorf("target contains empty branches. Target: %s", target)
 	}
 
-	coveredLines := 0
-	uncoveredLines := 0
+	coveredLines := make(map[int]struct{})
+	uncoveredLines := make(map[int]struct{})
 
 	for _, b := range branches {
 		if b.Finish < b.Start {
 			return nil, fmt.Errorf("branch starting line is behind ending line. Target file: %s, branch: %+v", target, b)
 		}
 
-		lines := b.Finish - b.Start + 1
-
-		if b.Covered {
-			coveredLines += lines
-		} else {
-			uncoveredLines += lines
+		for i := b.Start; i <= b.Finish; i++ {
+			if b.Covered {
+				if _, ok := coveredLines[i]; !ok {
+					coveredLines[i] = struct{}{}
+				}
+			} else {
+				if _, ok := uncoveredLines[i]; !ok {
+					uncoveredLines[i] = struct{}{}
+				}
+			}
 		}
+	}
+
+	// if one line is marked as covered and uncovered, then adjusted it as covered
+	for key := range coveredLines {
+		delete(uncoveredLines, key)
 	}
 
 	return &Result{
 		target,
-		coveredLines,
-		uncoveredLines,
+		len(coveredLines),
+		len(uncoveredLines),
 	}, nil
 }

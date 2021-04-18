@@ -48,11 +48,15 @@ func main() {
 		Action: func(c *cli.Context) error {
 			initLogging(c.Bool("debug"))
 
-			report.Report(
+			err := report.Report(
 				c.String("coverprofile"),
 				c.String("module"),
 				c.String("location"),
 			)
+
+			if err != nil {
+				return err
+			}
 
 			return nil
 		},
