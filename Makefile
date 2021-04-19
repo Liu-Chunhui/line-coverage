@@ -50,7 +50,7 @@ build: clean
 	go build -v \
 		-ldflags="\
 		-X main.Version=${VERSIOIN}" \
-		-o ./dist/linecoverage \
+		-o ./dist/line-coverage \
 		./cmd
 
 ##################################################
