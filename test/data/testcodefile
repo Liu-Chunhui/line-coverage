@@ -1,70 +1,60 @@
-package identity
+package fileparser
 
 import (
-	"context"
-	errorz "errors"
-
-	"github.com/yesino/pkg/errors"
-	"github.com/yesino/pkg/errors/errcodes"
-	"github.com/yesino/pkg/jwtauth"
-	log "github.com/yesino/pkg/logging"
-	"google.golang.org/grpc/codes"
-
-	"github.com/yesino/pkg/sysmsg"
+	"bufio"
+	"io"
+	"os"
+	"path/filepath"
+	"regexp"
 )
 
-// Practically copied from yesino-cards' identity package
+// ReadLines converts a file to lines.
+// Each line should contain '\n' in the end
+// len(lines) should match file lines
+func ReadLines(filename string, excludingPatterns ...string) ([]string, error) {
+	file, err := os.Open(filepath.Clean(filename))
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
 
-// Identity contains information extracted from an incoming JWT token about the id of the user calling
-// an API.
-type Identity struct {
-	// A UUID that identifies the current user (A yesino person ID).
-	UserID string
-	// An identifier for the current person the user is acting as (1 user can map to many personas).
-	PersonaID string
-	// An identifier to know the auth type (FakeRock or yesino)
-	Issuer string
+	var lines []string
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+
+			return nil, err
+		}
+
+		execluded, err := skipLine(line, excludingPatterns...)
+		if err != nil {
+			return nil, err
+		}
+
+		if !execluded {
+			lines = append(lines, line)
+		}
+	}
+
+	return lines, nil
 }
 
-// Get retrieves id information from JWT claims embedded in the context.
-func Get(ctx context.Context) (*Identity, error) {
-	claims, ok := jwtauth.GetClaimsFromContext(ctx)
-	if !ok {
-		log.Error(ctx, errorz.New("failed to extract JWT claims from context")).Send()
-		return nil, errors.New(
-			codes.Internal,
-			sysmsg.AuthenticationGenericErrMsg,
-			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
+func skipLine(line string, patterns ...string) (bool, error) {
+	for _, p := range patterns {
+		match, err := regexp.Match(p, []byte(line))
+		if err != nil {
+			return true, err
+		}
+
+		if match {
+			return true, nil
+		}
 	}
 
-	customer := claims.GetCustomer()
-	if customer == nil {
-		log.Error(ctx, errorz.New("failed to fetch customer details from JWT claims that is extracted from context")).Send()
-		return nil, errors.New(
-			codes.Internal,
-			sysmsg.AuthenticationGenericErrMsg,
-			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
-	}
-
-	if customer.GetSubject() == "" {
-		log.Error(ctx, errorz.New("failed to fetch subject from JWT claims that is extracted from context")).Send()
-		return nil, errors.New(
-			codes.Internal,
-			sysmsg.AuthenticationGenericErrMsg,
-			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
-	}
-
-	if customer.GetPersona() == nil {
-		log.Error(ctx, errorz.New("failed to fetch persona from JWT claims that is extracted from context")).Send()
-		return nil, errors.New(
-			codes.Internal,
-			sysmsg.AuthenticationGenericErrMsg,
-			errors.NewErrorInfo(ctx, errcodes.CodeUnknown, "internal error"))
-	}
-
-	return &Identity{
-		customer.GetSubject(),
-		customer.GetPersona().PersonaID,
-		claims.GetBaseClaims().Issuer,
-	}, nil
+	return false, nil
 }

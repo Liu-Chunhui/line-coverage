@@ -1,11 +1,8 @@
 package coverage
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
-
-	log "github.com/sirupsen/logrus"
 
 	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
 )
@@ -34,7 +31,6 @@ func loadProfiles(coverageFile string, module string, base string) ([]*coverageP
 // module: github.com/yesino
 // base: .
 func mapLineToCoverageProfile(line string, module string, base string) (*coverageProfile, error) {
-	log.Debug(fmt.Sprintf("line: %s", line))
 	topLvlParts := strings.Split(strings.TrimSpace(line), " ") // github.com/yesino/line-coverage/test/testdata.go:30.50,32.9 2 4
 	statements, err := strconv.Atoi(topLvlParts[1])
 	if err != nil {

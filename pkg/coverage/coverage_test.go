@@ -25,13 +25,13 @@ func TestCalculate(t *testing.T) {
 		{
 			name:            "test",
 			profileFilename: filepath.Join(execPath, "../../test/data/testcodefile.out"),
-			module:          "github.com/anzx/fabric-accounts",
+			module:          "github.com/Liu-Chunhui/line-coverage",
 			base:            filepath.Join(execPath, "../../"),
 			expected: []*Result{
 				{
-					Target:         "github.com/anzx/fabric-accounts/test/data/main.go",
-					CoveredLines:   0,
-					UncoveredLines: 68,
+					Target:         "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile",
+					CoveredLines:   20,
+					UncoveredLines: 4,
 				},
 			},
 		},

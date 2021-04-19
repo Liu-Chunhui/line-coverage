@@ -15,3 +15,5 @@
 # vendor/
 vendor
 .vscode
+dist
+gen

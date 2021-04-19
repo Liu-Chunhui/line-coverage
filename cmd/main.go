@@ -9,6 +9,10 @@ import (
 	"github.com/Liu-Chunhui/line-coverage/cmd/report"
 )
 
+var (
+	Version = "dev" // v0.1.0
+)
+
 func main() {
 	cli.VersionFlag = &cli.BoolFlag{
 		Name:    "version",
@@ -17,7 +21,7 @@ func main() {
 	}
 
 	app := &cli.App{
-		Version: "v0.1.0",
+		Version: Version,
 		Name:    "line-coverage",
 		Usage:   "scans the files which are described in the coverage profile(e.g. coverage.out) to calculates the line coverage",
 		Flags: []cli.Flag{
@@ -69,7 +73,6 @@ func main() {
 }
 
 func initLogging(debugMode bool) {
-	log.SetFormatter(&log.JSONFormatter{})
 	log.SetOutput(os.Stdout)
 
 	if debugMode {

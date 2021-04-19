@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"io"
 	"os"
+	"path/filepath"
 	"regexp"
 )
 
@@ -11,7 +12,7 @@ import (
 // Each line should contain '\n' in the end
 // len(lines) should match file lines
 func ReadLines(filename string, excludingPatterns ...string) ([]string, error) {
-	file, err := os.Open(filename)
+	file, err := os.Open(filepath.Clean(filename))
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +37,7 @@ func ReadLines(filename string, excludingPatterns ...string) ([]string, error) {
 		}
 
 		if !execluded {
-			lines = append(lines, string(line))
+			lines = append(lines, line)
 		}
 	}
 

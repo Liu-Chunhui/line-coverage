@@ -21,24 +21,28 @@ func TestMapProfileToBranch(t *testing.T) {
 	tests := []struct {
 		name        string
 		profileLine string
-		expected    *branch
+		expected    []*branch
 	}{
 		{
 			name:        "uncoveredLines",
-			profileLine: "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:41.21,47.3 2 0",
-			expected: &branch{
-				Start:   42,
-				Finish:  46,
-				Covered: false,
+			profileLine: "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:16.16,18.3 1 0",
+			expected: []*branch{
+				{
+					Start:   17,
+					Finish:  17,
+					Covered: false,
+				},
 			},
 		},
 		{
-			name:        "finishingLineIs},nil",
-			profileLine: "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:65.2,69.8 1 1",
-			expected: &branch{
-				Start:   65,
-				Finish:  69,
-				Covered: true,
+			name:        "finishingLineIs, nil",
+			profileLine: "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:59.2,59.19 1 60",
+			expected: []*branch{
+				{
+					Start:   59,
+					Finish:  59,
+					Covered: true,
+				},
 			},
 		},
 	}
@@ -51,10 +55,10 @@ func TestMapProfileToBranch(t *testing.T) {
 			profile, err := mapLineToCoverageProfile(tt.profileLine, "github.com/Liu-Chunhui/line-coverage", base)
 			require.NoError(t, err)
 
-			target, branch := convertProfileToBranch(profile, lines)
+			target, branches := convertProfileToBranch(profile, lines)
 			require.NotNil(t, target)
 			assert.NotEmpty(t, target)
-			assert.Equal(t, tt.expected, branch)
+			assert.Equal(t, tt.expected, branches)
 		})
 	}
 

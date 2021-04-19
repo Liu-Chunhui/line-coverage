@@ -3,9 +3,10 @@ package coverage
 import (
 	"fmt"
 
-	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
 	"github.com/davecgh/go-spew/spew"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
 )
 
 func Calculate(profileFilename string, module string, basePath string) ([]*Result, error) {
@@ -42,7 +43,7 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 		}
 
 		for _, p := range coverageProfiles {
-			_, _ = spew.Println("coverageProfile: %v", p)
+			log.Debug(spew.Sprintln("coverageProfile: %+v", p))
 			target, branches := convertProfileToBranch(p, codeInLines)
 			if values, ok := targetBranches[target]; ok {
 				targetBranches[target] = append(values, branches...)
@@ -52,11 +53,11 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 		}
 	}
 
-	log.Debug("Building results")
+	log.Info("Building results")
 	var results []*Result
 
 	for target, branches := range targetBranches {
-		_, _ = spew.Println("targetBranches: %s, %v\n", target, branches)
+		log.Debug(spew.Sprintln("targetBranches: %s, %+v", target, branches))
 		r, err := calculateTargetResult(target, branches)
 		if err != nil {
 			return nil, err
