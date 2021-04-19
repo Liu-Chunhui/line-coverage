@@ -1,0 +1,19 @@
+mode: atomic
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:14.80,16.16 2 1
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:19.2,24.6 4 1
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:44.2,44.19 1 1
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:16.16,18.3 1 0
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:24.6,26.17 2 60
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:34.3,35.17 2 59
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:39.3,39.17 1 59
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:26.17,27.21 1 1
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:31.4,31.19 1 0
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:27.21,28.10 1 1
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:35.17,37.4 1 0
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:39.17,41.4 1 59
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:47.62,48.29 1 63
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:59.2,59.19 1 60
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:48.29,50.17 2 6
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:54.3,54.12 1 6
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:50.17,52.4 1 0
+github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:54.12,56.4 1 3
