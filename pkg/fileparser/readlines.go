@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"regexp"
 )
 
 // ReadLines converts a file to lines.
@@ -31,7 +30,7 @@ func ReadLines(filename string, excludingPatterns ...string) ([]string, error) {
 			return nil, err
 		}
 
-		execluded, err := skipLine(line, excludingPatterns...)
+		execluded, err := MatchPattern(line, excludingPatterns...)
 		if err != nil {
 			return nil, err
 		}
@@ -42,19 +41,4 @@ func ReadLines(filename string, excludingPatterns ...string) ([]string, error) {
 	}
 
 	return lines, nil
-}
-
-func skipLine(line string, patterns ...string) (bool, error) {
-	for _, p := range patterns {
-		match, err := regexp.Match(p, []byte(line))
-		if err != nil {
-			return true, err
-		}
-
-		if match {
-			return true, nil
-		}
-	}
-
-	return false, nil
 }

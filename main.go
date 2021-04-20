@@ -32,15 +32,9 @@ func main() {
 				Required: true,
 			},
 			&cli.StringFlag{
-				Name:     "module",
+				Name:     "gomod",
 				Aliases:  []string{"m"},
-				Usage:    "module name.(e.g. github.com/Liu-Chunhui/line-coverage)",
-				Required: true,
-			},
-			&cli.StringFlag{
-				Name:     "location",
-				Aliases:  []string{"l"},
-				Usage:    "the root level location of the files are described in the coverage profile.",
+				Usage:    "go.mod with path",
 				Required: true,
 			},
 			&cli.BoolFlag{
@@ -54,8 +48,7 @@ func main() {
 
 			err := report.Report(
 				c.String("coverprofile"),
-				c.String("module"),
-				c.String("location"),
+				c.String("gomod"),
 			)
 
 			if err != nil {
