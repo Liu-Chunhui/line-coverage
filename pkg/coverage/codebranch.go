@@ -90,10 +90,13 @@ func startEmptyLineAdjustment(codeInLines []string, startLine int, adjustment in
 }
 
 func finishLineAdjustment(codeInLines []string, finishLine int, adjustment int) int {
-	line := strings.TrimSpace(codeInLines[finishLine-1]) // trim \t \n
-	line = strings.ReplaceAll(line, "})", "")            // remove })
-	line = strings.ReplaceAll(line, "}", "")             // remove multiple }
-	if len(line) == 0 {
+	// trim LEFT \t
+	line := strings.TrimLeft(codeInLines[finishLine-1], "\t")
+	line = strings.ReplaceAll(line, "}", "") // trim all '}'.
+
+	if line == "\n" ||
+		line == ")\n" ||
+		line == "()\n" {
 		return finishLineAdjustment(codeInLines, finishLine-1, adjustment+1)
 	}
 
