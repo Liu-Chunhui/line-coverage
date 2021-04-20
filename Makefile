@@ -51,7 +51,7 @@ build: clean
 		-ldflags="\
 		-X main.Version=${VERSIOIN}" \
 		-o ./dist/line-coverage \
-		./cmd
+		.
 
 ##################################################
 # Runs unit tests and generates a coverage file at coverage.out
