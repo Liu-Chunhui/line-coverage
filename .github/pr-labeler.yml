@@ -1,0 +1,7 @@
+enhancement:
+  - "feature/*"
+bug:
+  - "fix/*"
+  - "bug/*"
+ci:
+  - "ci/*"

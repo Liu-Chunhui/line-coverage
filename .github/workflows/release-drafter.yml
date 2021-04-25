@@ -1,0 +1,38 @@
+name: Release Drafter
+
+on:
+  push:
+    # branches to consider in the event; optional, defaults to all
+    branches:
+      - master
+  # pull_request event is required only for autolabeler
+  pull_request:
+    # Only following types are handled by the action, but one can default to all as well
+    types: [opened, reopened, synchronize]
+
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get version
+        id: get_version
+        if: contains(github.ref, 'refs/tags')
+        run: |
+          TAG=$(basename ${GITHUB_REF})
+          echo "::set-output name=TAG::$TAG"
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: Liu-Chunhui/line-coverage
+          token: ${{ secrets.ORG_GITHUB_TOKEN }}
+          path: checkout
+      - name: Draft
+        uses: ./checkout/release-drafter
+        with:
+          config-name: release-drafter.yml
+          version: ${{ steps.get_version.outputs.TAG }}
+          tag: ${{ steps.get_version.outputs.TAG }}
+          prerelease: contains(github.ref, 'refs/tags') && contains(github.ref, 'rc')
+          publish: contains(github.ref, 'refs/tags') && !contains(github.ref, 'rc')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
