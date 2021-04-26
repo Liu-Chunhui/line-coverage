@@ -1,6 +1,8 @@
 on:
   release:
     types: [created]
+env:
+  CGO_ENABLED: 0
 
 jobs:
   release-linux-amd64:
