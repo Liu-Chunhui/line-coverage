@@ -260,6 +260,16 @@ func TestFinishLineAdjustment(t *testing.T) {
 			expectedChar:       ' ',
 			expectedAdjustment: 1,
 		},
+		{
+			name: "WhenEndWithNothingBut'},'_ThenReturnExpectedAdjustment",
+			lines: []string{
+				"\t\t\treturn nil\n",
+				"\t\t},\n"},
+			finishLine:         2,
+			endPos:             4,
+			expectedChar:       ',',
+			expectedAdjustment: 1,
+		},
 	}
 
 	for _, tt := range tests {
