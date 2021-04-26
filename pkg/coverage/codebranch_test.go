@@ -45,6 +45,17 @@ func TestMapProfileToBranch(t *testing.T) {
 				},
 			},
 		},
+		{
+			name:        "WhenStatementIs0ButExecuteTimesAreNot0_ThenShouldMarkedAsCovered",
+			profileLine: "github.com/Liu-Chunhui/line-coverage/test/data/testcodefile:15.14,15.14 0 2",
+			expected: []*branch{
+				{
+					Start:   15,
+					Finish:  15,
+					Covered: true,
+				},
+			},
+		},
 	}
 
 	for _, tt := range tests {
@@ -177,6 +188,17 @@ func TestFinishLineAdjustment(t *testing.T) {
 			expectedAdjustment: 0,
 		},
 		{
+			name: "WhenLineIsEndingWith'})'_ThenReturnExpectedAdjustment",
+			lines: []string{
+				"\t\t\t\t\t Some Code,\n",
+				"\t\t\t\t})\n",
+				"\t\t\t}\n"},
+			finishLine:         3,
+			endPos:             5,
+			expectedChar:       '\n',
+			expectedAdjustment: 1,
+		},
+		{
 			name: "WhenEndPositionIsOnlyBracketLeadingWithNewLineChar_ThenReturnExpectedAdjustment",
 			lines: []string{
 				"code }\n",
@@ -208,14 +230,14 @@ func TestFinishLineAdjustment(t *testing.T) {
 			expectedAdjustment: 2,
 		},
 		{
-			name: "WhenEndWithNothingBut'})'_ThenReturnExpectedAdjustment",
+			name: "WhenEndWithNothingBut'})'_ThenReturnNoAdjustment",
 			lines: []string{
 				"	return some code here\n",
 				"\t})\n"},
 			finishLine:         2,
 			endPos:             3,
 			expectedChar:       ')',
-			expectedAdjustment: 1,
+			expectedAdjustment: 0,
 		},
 		{
 			name: "WhenEndWithNothingBut'}()'_ThenReturnExpectedAdjustment",

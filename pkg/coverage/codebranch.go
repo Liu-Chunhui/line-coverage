@@ -18,7 +18,7 @@ func convertProfileToBranch(profile *coverageProfile, codeInLines []string) (str
 		codeInLines,
 		adjustedStartLine,
 		adjustedFinishLine,
-		profile.Statements > 0 && profile.Executions > 0,
+		profile.Statements >= 0 && profile.Executions > 0,
 	)
 
 	return profile.Target, branches
@@ -95,7 +95,6 @@ func finishLineAdjustment(codeInLines []string, finishLine int, position int) in
 
 	if statement == "" ||
 		statement == "(" ||
-		statement == ")" ||
 		statement == "()" {
 		return adjustBackwards(codeInLines, finishLine-1, 1)
 	}
@@ -109,7 +108,6 @@ func adjustBackwards(codeInLines []string, finishLine int, adjustment int) int {
 
 	if line == "" ||
 		line == "(" ||
-		line == ")" ||
 		line == "()" {
 		return adjustBackwards(codeInLines, finishLine-1, adjustment+1)
 	}
