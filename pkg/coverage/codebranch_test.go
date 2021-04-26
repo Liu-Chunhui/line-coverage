@@ -161,10 +161,10 @@ func TestFinishLineAdjustment(t *testing.T) {
 		expectedAdjustment int
 	}{
 		{
-			name:               "WhenEndPositionIsNotNewLineChar_ThenReturnNoAdjustment",
+			name:               "WhenEndPositionCodeWith'}'_ThenReturnNoAdjustment",
 			lines:              []string{"} else if a < b { a += 1 }\n"},
 			finishLine:         1,
-			endPos:             1,
+			endPos:             26,
 			expectedChar:       '}',
 			expectedAdjustment: 0,
 		},
@@ -227,6 +227,17 @@ func TestFinishLineAdjustment(t *testing.T) {
 			expectedChar:       '(',
 			expectedAdjustment: 1,
 		},
+		{
+			name: "WhenEndWithNothingBut'} else {'_ThenReturnExpectedAdjustment",
+			lines: []string{
+				"		if err != nil {\n",
+				"			serverErr = some code\n",
+				"		} else {\n"},
+			finishLine:         3,
+			endPos:             4,
+			expectedChar:       ' ',
+			expectedAdjustment: 1,
+		},
 	}
 
 	for _, tt := range tests {
@@ -234,7 +245,7 @@ func TestFinishLineAdjustment(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			got := finishLineAdjustment(tt.lines, tt.finishLine, 0)
+			got := finishLineAdjustment(tt.lines, tt.finishLine, tt.endPos)
 			require.Equal(t, tt.expectedChar, tt.lines[tt.finishLine-1][tt.endPos-1])
 			assert.Equal(t, tt.expectedAdjustment, got)
 		})

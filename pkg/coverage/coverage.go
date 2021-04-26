@@ -57,7 +57,6 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 	var results []*Result
 
 	for target, branches := range targetBranches {
-		log.Debug(spew.Sprintln("targetBranches: %s, %+v", target, branches))
 		r, err := calculateTargetResult(target, branches)
 		if err != nil {
 			return nil, err

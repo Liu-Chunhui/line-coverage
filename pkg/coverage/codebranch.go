@@ -11,7 +11,7 @@ func convertProfileToBranch(profile *coverageProfile, codeInLines []string) (str
 	adjustedFinishLine := profile.FinishLine
 
 	adjustedStartLine += startLineAdjustment(codeInLines, profile.StartLine, profile.StartPosition)
-	adjustedFinishLine -= finishLineAdjustment(codeInLines, profile.FinishLine, 0)
+	adjustedFinishLine -= finishLineAdjustment(codeInLines, profile.FinishLine, profile.FinishPosition)
 
 	// to check if there are any new lines
 	branches := splitByNewLine(
@@ -89,15 +89,29 @@ func startEmptyLineAdjustment(codeInLines []string, startLine int, adjustment in
 	return adjustment
 }
 
-func finishLineAdjustment(codeInLines []string, finishLine int, adjustment int) int {
-	// trim LEFT \t
-	line := strings.TrimLeft(codeInLines[finishLine-1], "\t")
-	line = strings.ReplaceAll(line, "}", "") // trim all '}'.
+func finishLineAdjustment(codeInLines []string, finishLine int, position int) int {
+	statement := strings.TrimSpace(codeInLines[finishLine-1][0:position]) // trim "\t", " ", "\n"
+	statement = strings.ReplaceAll(statement, "}", "")
 
-	if line == "\n" ||
-		line == ")\n" ||
-		line == "()\n" {
-		return finishLineAdjustment(codeInLines, finishLine-1, adjustment+1)
+	if statement == "" ||
+		statement == "(" ||
+		statement == ")" ||
+		statement == "()" {
+		return adjustBackwards(codeInLines, finishLine-1, 1)
+	}
+
+	return 0
+}
+
+func adjustBackwards(codeInLines []string, finishLine int, adjustment int) int {
+	line := strings.TrimSpace(codeInLines[finishLine-1]) // trim "\t", " ", "\n"
+	line = strings.ReplaceAll(line, "}", "")             // trim all '}'.
+
+	if line == "" ||
+		line == "(" ||
+		line == ")" ||
+		line == "()" {
+		return adjustBackwards(codeInLines, finishLine-1, adjustment+1)
 	}
 
 	return adjustment
