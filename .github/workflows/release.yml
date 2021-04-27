@@ -20,4 +20,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          ldflags: -X github.com/Liu-Chunhui/line-coverage/main.Version=${{ github.event.release.tag_name }}
+          ldflags: -X main.Version=${{ github.event.release.tag_name }}
