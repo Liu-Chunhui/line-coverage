@@ -62,6 +62,6 @@ COVER_HTML?=./gen/coverage.html
 .PHONY: test
 test:
 	@mkdir -p gen  ## Creating a gen folder if it doesn't exist
-	go test `go list ./... | grep -vE "./test"` -race -covermode=atomic -coverprofile=$(COVERFILE)
+	go test `go list ./... | grep -vE "/test/"` -race -covermode=atomic -coverprofile=$(COVERFILE)
 	go tool cover -func=$(COVERFILE) 
 	go tool cover -html=$(COVERFILE) -o $(COVER_HTML)

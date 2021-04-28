@@ -92,15 +92,25 @@ func startEmptyLineAdjustment(codeInLines []string, startLine int, adjustment in
 func finishLineAdjustment(codeInLines []string, finishLine int, position int) int {
 	statement := strings.TrimSpace(codeInLines[finishLine-1][0:position]) // trim "\t", " ", "\n"
 	statement = strings.ReplaceAll(statement, "}", "")
+	const noNeedAdjustment = 0
+
+	if statement == ")" {
+		// to check if current '}' closing for 'struct' or 'function'
+		previousLine := strings.TrimSpace(codeInLines[finishLine-2]) // trim "\t", " ", "\n"
+		if previousLine[len(previousLine)-1] == ',' {
+			return noNeedAdjustment
+		}
+		return adjustBackwards(codeInLines, finishLine-1, 1)
+	}
 
 	if statement == "" ||
 		statement == "(" ||
 		statement == "()" ||
-		statement == "," {
+		statement == "," { // When finish position is '},' then need to adjust backwards
 		return adjustBackwards(codeInLines, finishLine-1, 1)
 	}
 
-	return 0
+	return noNeedAdjustment
 }
 
 func adjustBackwards(codeInLines []string, finishLine int, adjustment int) int {
@@ -109,8 +119,7 @@ func adjustBackwards(codeInLines []string, finishLine int, adjustment int) int {
 
 	if line == "" ||
 		line == "(" ||
-		line == "()" ||
-		line == "," {
+		line == "()" {
 		return adjustBackwards(codeInLines, finishLine-1, adjustment+1)
 	}
 
