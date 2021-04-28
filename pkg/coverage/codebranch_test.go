@@ -230,16 +230,6 @@ func TestFinishLineAdjustment(t *testing.T) {
 			expectedAdjustment: 2,
 		},
 		{
-			name: "WhenEndWithNothingBut'})'_ThenReturnNoAdjustment",
-			lines: []string{
-				"	return some code here\n",
-				"\t})\n"},
-			finishLine:         2,
-			endPos:             3,
-			expectedChar:       ')',
-			expectedAdjustment: 0,
-		},
-		{
 			name: "WhenEndWithNothingBut'}()'_ThenReturnExpectedAdjustment",
 			lines: []string{
 				"	return some code here\n",
@@ -268,6 +258,38 @@ func TestFinishLineAdjustment(t *testing.T) {
 			finishLine:         2,
 			endPos:             4,
 			expectedChar:       ',',
+			expectedAdjustment: 1,
+		},
+		{
+			name: "WhenEndWith'}'AndPreviousLineIs'},'_ThenReturnExpectedAdjustment",
+			lines: []string{
+				"\t\t\t},\n",
+				"\t\t}\n"},
+			finishLine:         2,
+			endPos:             4,
+			expectedChar:       '\n',
+			expectedAdjustment: 1,
+		},
+		{
+			// '}' closes for 'struct {'
+			name: "WhenEndWith'})AndPreviousLineEndWith','_ThenReturnNoAdjustment",
+			lines: []string{
+				"\t\t some code,\n",
+				"\t})\n"},
+			finishLine:         2,
+			endPos:             3,
+			expectedChar:       ')',
+			expectedAdjustment: 0,
+		},
+		{
+			// '}' closes for 'function {'
+			name: "WhenEndWith'})AndPreviousLineNotEndWith','_ThenReturnExpectedAdjustment",
+			lines: []string{
+				"	return some code here\n",
+				"\t})\n"},
+			finishLine:         2,
+			endPos:             3,
+			expectedChar:       ')',
 			expectedAdjustment: 1,
 		},
 	}
