@@ -14,7 +14,7 @@ import (
 
 func Report(coverprofile string, gomod string) error {
 	// load module name from go.mod file
-	module, err := loadModule(gomod)
+	module := loadModule(gomod)
 	if err != nil {
 		return err
 	}

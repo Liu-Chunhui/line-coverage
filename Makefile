@@ -61,7 +61,17 @@ COVER_HTML?=./gen/coverage.html
 
 .PHONY: test
 test:
+	$(call print-target)
 	@mkdir -p gen  ## Creating a gen folder if it doesn't exist
 	go test `go list ./... | grep -vE "/test/"` -race -covermode=atomic -coverprofile=$(COVERFILE)
 	go tool cover -func=$(COVERFILE) 
 	go tool cover -html=$(COVERFILE) -o $(COVER_HTML)
+
+
+.PHONY: help
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+define print-target
+    @printf "Executing target: \033[36m$@\033[0m\n"
+endef
