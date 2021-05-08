@@ -1,5 +1,0 @@
-#!/bin/sh
-
-export PATH=/usr/local/bin:$PATH
-
-run-parts ./githooks/pre-commit.d/ -v --exit-on-error
