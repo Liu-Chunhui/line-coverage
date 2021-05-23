@@ -15,5 +15,5 @@
 # vendor/
 vendor
 .vscode
-dist
-gen
+gen/
+bin/

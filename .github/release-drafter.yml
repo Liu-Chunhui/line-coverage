@@ -1,5 +1,7 @@
 name-template: "v$RESOLVED_VERSION 🌈"
+
 tag-template: "v$RESOLVED_VERSION"
+
 categories:
   - title: "🚀 Features"
     labels:
@@ -10,11 +12,20 @@ categories:
       - "fix"
       - "bug"
   - title: "🧰 Maintenance"
-    label: "chore"
+    label:
+      - "tech"
+      - "maintenance"
+  - title: "🤖 dependabot"
+    label:
+      - "dependabot"
+      - "bot"
+
 exclude-labels:
   - "skip:changelog"
   - "trivial"
+
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 
 template: |

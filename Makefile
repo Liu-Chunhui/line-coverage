@@ -1,3 +1,6 @@
+VERSIOIN ?= dev
+COMMIT_SHA ?= $(shell git rev-parse --verify HEAD)
+
 ##################################################
 # Defaults
 ##################################################
@@ -10,7 +13,7 @@ all: clean vendor tidy build test
 clean:
 	go clean ./...
 	rm -rf ./gen
-	rm -rf ./dist
+	rm -rf ./bin
 
 ##################################################
 # Cleans up go mod dependencies and vendor's all dependencies
@@ -46,11 +49,12 @@ lint:
 # Build the project and generate binary file
 ##################################################
 .PHONY: build
-build: clean 
+build: 
 	go build -v \
 		-ldflags="\
-		-X main.Version=${VERSIOIN}" \
-		-o ./dist/line-coverage \
+		-X 'main.Version=${VERSIOIN}' \
+		-X 'main.Commit=${COMMIT_SHA}'" \
+		-o ./bin/line-coverage \
 		.
 
 ##################################################

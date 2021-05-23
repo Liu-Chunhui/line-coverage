@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	Version = "dev" // v0.1.0
+	Version = "dev" // v1.0.0
+	Commit  = ""    //commit sha
 )
 
 func main() {
