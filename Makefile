@@ -1,10 +1,11 @@
 VERSIOIN ?= dev
 COMMIT_SHA ?= $(shell git rev-parse --verify HEAD)
+SRC_CODE ?= $(shell find . -type f -name '*.go' -not -path "*/vendor/*")
 
 ##################################################
 # Defaults
 ##################################################
-all: clean vendor tidy build test
+all: clean vendor lint build test
 
 ##################################################
 # Runs go clean and removes generated binaries and coverfiles
@@ -24,25 +25,31 @@ vendor:
 	go mod vendor
 
 ##################################################
+# Examines Go source code and reports suspicious constructs
+##################################################
+.PHONY: vet
+vet: 
+	go vet ./...
+
+##################################################
 # Formats Go programs
 ##################################################
-.PHONY: fmt
-fmt: 
-	gofmt -s -w -e $(shell find . -type f -name '*.go' -not -path "*/vendor/*")
+.PHONY: format
+format: 
+	gofmt -s -w -e ${SRC_CODE}
 
 ##################################################
-# Simplify code and reorders imports
+# Updates import lines, adding missing ones and removing unreferenced ones.
 ##################################################
-.PHONY: tidy
-tidy: fmt 
-	goimports -v -w -e $(shell find . -type f -name '*.go' -not -path "*/vendor/*")
-
+.PHONY: import
+import:
+	goimports -v -w -e ${SRC_CODE}
 
 ##################################################
 # Runs the golangci-lint checker
 ##################################################
 .PHONY: lint
-lint:
+lint: vet format import
 	golangci-lint run
 
 ##################################################

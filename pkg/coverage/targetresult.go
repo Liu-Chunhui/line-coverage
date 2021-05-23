@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/davecgh/go-spew/spew"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 // target: github.com/yesino/line-coverage/test/testdata.go
@@ -14,7 +14,7 @@ func calculateTargetResult(target string, branches []*branch) (*Result, error) {
 		return nil, fmt.Errorf("target contains empty branches. Target: %s", target)
 	}
 
-	log.Debug(spew.Sprintln("targetBranches: %s, %+v", target, branches))
+	logrus.Debug(spew.Sprintln("targetBranches: %s, %+v", target, branches))
 
 	coveredLines := make(map[int]struct{})
 	uncoveredLines := make(map[int]struct{})
@@ -42,8 +42,8 @@ func calculateTargetResult(target string, branches []*branch) (*Result, error) {
 		delete(uncoveredLines, key)
 	}
 
-	log.Debug(spew.Sprintln("coveredLines: %s, %+v", target, coveredLines))
-	log.Debug(spew.Sprintln("uncoveredLines: %s, %+v", target, uncoveredLines))
+	logrus.Debug(spew.Sprintln("coveredLines: %s, %+v", target, coveredLines))
+	logrus.Debug(spew.Sprintln("uncoveredLines: %s, %+v", target, uncoveredLines))
 
 	return &Result{
 		target,

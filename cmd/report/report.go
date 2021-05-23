@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 
 	"github.com/Liu-Chunhui/line-coverage/pkg/coverage"
 	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
@@ -18,11 +18,11 @@ func Report(coverprofile string, gomod string) error {
 	if err != nil {
 		return err
 	}
-	log.Info(fmt.Sprintf("module: %s\n", module))
+	logrus.Info(fmt.Sprintf("module: %s\n", module))
 
 	// load root path from go.mod file path. normally go.mod is located at the root path
 	rootPath := filepath.Dir(gomod)
-	log.Info(fmt.Sprintf("rootPath: %s\n", rootPath))
+	logrus.Info(fmt.Sprintf("rootPath: %s\n", rootPath))
 
 	results, err := coverage.Calculate(coverprofile, module, rootPath)
 	if err != nil {

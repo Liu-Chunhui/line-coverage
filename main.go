@@ -3,15 +3,14 @@ package main
 import (
 	"os"
 
-	log "github.com/sirupsen/logrus"
-	"github.com/urfave/cli/v2"
+	"github.com/sirupsen/logrus"
+	cli "github.com/urfave/cli/v2"
 
 	"github.com/Liu-Chunhui/line-coverage/cmd/report"
 )
 
 var (
 	Version = "dev" // v1.0.0
-	Commit  = ""    //commit sha
 )
 
 func main() {
@@ -62,17 +61,18 @@ func main() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 }
 
 func initLogging(debugMode bool) {
-	log.SetOutput(os.Stdout)
+	logrus.SetOutput(os.Stdout)
+	logrus.WithField("Version", Version)
 
 	if debugMode {
-		log.SetLevel(log.DebugLevel)
-		log.Debug("debug model is enabled.")
+		logrus.SetLevel(logrus.DebugLevel)
+		logrus.Debug("debug model is enabled.")
 	} else {
-		log.SetLevel(log.InfoLevel)
+		logrus.SetLevel(logrus.InfoLevel)
 	}
 }
