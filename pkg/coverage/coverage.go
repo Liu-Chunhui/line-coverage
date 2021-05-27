@@ -4,20 +4,20 @@ import (
 	"fmt"
 
 	"github.com/davecgh/go-spew/spew"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 
 	"github.com/Liu-Chunhui/line-coverage/pkg/fileparser"
 )
 
 func Calculate(profileFilename string, module string, basePath string) ([]*Result, error) {
-	log.Info(fmt.Sprintf("Processing profile file: %s", profileFilename))
+	logrus.Info(fmt.Sprintf("Processing profile file: %s", profileFilename))
 	// scan coverage.out to build []*coverageProfile
 	profiles, err := loadProfiles(profileFilename, module, basePath)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Info("Building profile targets map")
+	logrus.Info("Building profile targets map")
 	// map key: code filename
 	maps := make(map[string][]*coverageProfile)
 
@@ -30,7 +30,7 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 		}
 	}
 
-	log.Info("Building target branches map")
+	logrus.Info("Building target branches map")
 	// code in lines
 	targetBranches := make(map[string][]*branch)
 
@@ -43,7 +43,7 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 		}
 
 		for _, p := range coverageProfiles {
-			log.Debug(spew.Sprintln("coverageProfile: %+v", p))
+			logrus.Debug(spew.Sprintln("coverageProfile: %+v", p))
 			target, branches := convertProfileToBranch(p, codeInLines)
 			if values, ok := targetBranches[target]; ok {
 				targetBranches[target] = append(values, branches...)
@@ -53,7 +53,7 @@ func Calculate(profileFilename string, module string, basePath string) ([]*Resul
 		}
 	}
 
-	log.Info("Building results")
+	logrus.Info("Building results")
 	var results []*Result
 
 	for target, branches := range targetBranches {

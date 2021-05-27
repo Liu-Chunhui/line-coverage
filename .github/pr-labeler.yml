@@ -1,7 +1,14 @@
 enhancement:
   - "feature/*"
+  - "enhancement/*"
+
 bug:
   - "fix/*"
   - "bug/*"
+
 ci:
   - "ci/*"
+
+dependabot:
+  - "dependabot/*"
+  - "bot"
