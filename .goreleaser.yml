@@ -17,31 +17,8 @@ builds:
       - arm
       - arm64
     ignore:
-      - goos: windows
-        goarch: arm
-        goarm: 7
-      - goos: windows
-        goarch: arm64
-
       - goos: darwin
         goarch: 386
-      - goos: darwin
-        goarch: arm
-
-      - goos: linux
-        goarch: arm
-        goarm: 7
-
-    # - goos: linux
-    #   goarch: amd64
-    # - goos: linux
-    #   goarch: arm
-    #   goarm: 6
-    # - goos: linux
-    #   goarch: arm
-    #   goarm: 7
-    # flags:
-    #   - "-a"
     ldflags:
       - "-X main.Version={{.Version}}"
     main: ./

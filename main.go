@@ -11,6 +11,7 @@ import (
 
 var (
 	Version = "dev" // v1.0.0
+	Commit  = ""
 )
 
 func main() {
@@ -68,6 +69,7 @@ func main() {
 func initLogging(debugMode bool) {
 	logrus.SetOutput(os.Stdout)
 	logrus.WithField("Version", Version)
+	logrus.WithField("CommitSHA", Commit)
 
 	if debugMode {
 		logrus.SetLevel(logrus.DebugLevel)

@@ -1,8 +1,7 @@
 name: Docker
 on:
   push:
-    branch: ["master", "main"]
-    tags: ["v*"]
+    tags: ["v*.*.*"]
   pull_request:
   release:
     types: [published, released]
@@ -18,7 +17,7 @@ jobs:
       - name: Build the container image
         uses: docker/build-push-action@v2
         with:
-          repository: golang-repo-template
+          repository: Liu-Chunhui/line-coverage
 
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v2
@@ -27,7 +26,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: moul/golang-repo-template/golang-repo-template
+          repository: Liu-Chunhui/line-coverage/line-coverage
           tag_with_ref: true
 
       - name: Check Docker Hub Credentials
