@@ -11,4 +11,3 @@ ci:
 
 dependabot:
   - "dependabot/*"
-  - "bot"
