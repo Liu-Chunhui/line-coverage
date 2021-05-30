@@ -1,4 +1,4 @@
-VERSIOIN ?= dev
+VERSION ?= dev
 COMMIT_SHA ?= $(shell git rev-parse --verify HEAD)
 SRC_CODE ?= $(shell find . -type f -name '*.go' -not -path "*/vendor/*")
 
@@ -59,7 +59,7 @@ lint: vet format import
 build: 
 	go build -v \
 		-ldflags="\
-		-X 'main.Version=${VERSIOIN}' \
+		-X 'main.Version=${VERSION}' \
 		-X 'main.Commit=${COMMIT_SHA}'" \
 		-o ./bin/line-coverage \
 		.
