@@ -1,0 +1,21 @@
+bug:
+  - fix/*
+  - bug/*
+
+dependabot:
+  - dependabot/*
+
+doc:
+  - doc/*
+  - documentation/*
+
+feature:
+  - feature/*
+  - enhancement/*
+
+maintenance:
+  - ci/*
+  - cd/*
+  - refactor/*
+  - docker/*
+  - tech/*
