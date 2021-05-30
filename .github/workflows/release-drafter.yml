@@ -10,25 +10,11 @@ jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
-      - name: Get version
-        id: get_version
-        if: contains(github.ref, 'refs/tags')
-        run: |
-          TAG=$(basename ${GITHUB_REF})
-          echo "::set-output name=TAG::$TAG"
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: Liu-Chunhui/line-coverage
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: checkout
       - name: Draft
-        uses: ./checkout/release-drafter
+        uses: release-drafter/release-drafter@v5
         with:
           config-name: release-drafter.yml
-          version: ${{ steps.get_version.outputs.TAG }}
-          tag: ${{ steps.get_version.outputs.TAG }}
-          prerelease: contains(github.ref, 'refs/tags') && contains(github.ref, 'rc')
-          publish: contains(github.ref, 'refs/tags') && !contains(github.ref, 'rc')
+          tag: "v$NEXT_MINOR_VERSION"
+          version: "v$NEXT_MINOR_VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
