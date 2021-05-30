@@ -1,13 +1,21 @@
-enhancement:
-  - "feature/*"
-  - "enhancement/*"
-
 bug:
-  - "fix/*"
-  - "bug/*"
-
-ci:
-  - "ci/*"
+  - fix/*
+  - bug/*
 
 dependabot:
-  - "dependabot/*"
+  - dependabot/*
+
+doc:
+  - doc/*
+  - documentation/*
+
+feature:
+  - feature/*
+  - enhancement/*
+
+maintenance:
+  - ci/*
+  - cd/*
+  - refactor/*
+  - docker/*
+  - tech/*
