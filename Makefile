@@ -8,6 +8,11 @@ SRC_CODE ?= $(shell find . -type f -name '*.go' -not -path "*/vendor/*")
 all: clean vendor lint build test
 
 ##################################################
+# CI
+##################################################
+ci: vendor build test
+
+##################################################
 # Runs go clean and removes generated binaries and coverfiles
 ##################################################
 .PHONY: clean
