@@ -20,9 +20,9 @@ on:
       - "**.go"
       - ".goreleaser.yml"
       - ".golangci.yml"
+      - "Docker*"
       - ".dockerignore"
       - "Makefile"
-      - "rules.mk"
       - "go.*"
       - ".github/workflows/go.yml"
 
