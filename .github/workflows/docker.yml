@@ -32,8 +32,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/liu-chunhui/line-coverange:latest
-            ghcr.io/liu-chunhui/line-coverange:${{ github.event.release.tag_name }}
+            ghcr.io/liu-chunhui/line-coverage:latest
+            ghcr.io/liu-chunhui/line-coverage:${{ github.event.release.tag_name }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
