@@ -34,11 +34,9 @@
   <p align="center">
     Scans and calculates code line-coverage for Golang projects
     <br />
-    <a href="https://github.com/Liu-Chunhui/line-coverage/doc"><strong>Explore the docs »</strong></a>
+    <a href="/doc"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Liu-Chunhui/line-coverage">View Demo</a>
-    ·
     <a href="https://github.com/Liu-Chunhui/line-coverage/issues">Report Bug</a>
     ·
     <a href="https://github.com/Liu-Chunhui/line-coverage/issues">Request Feature</a>
