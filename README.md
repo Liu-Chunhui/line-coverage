@@ -73,7 +73,11 @@
 
 ## About The Project
 
-[![line-coverage][demo]](https://github.com/Liu-Chunhui/line-coverage)
+<div align="center">
+  <a href="https://github.com/Liu-Chunhui/line-coverage">
+    <img src="doc/image/demo.gif" alt="Demo">
+  </a>
+</div>
 
 ### Built With
 
