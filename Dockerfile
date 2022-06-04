@@ -2,7 +2,7 @@
 ARG             BUILD_ARG_VERSION=latest
 
 # build
-FROM            golang:1.17.4-alpine as builder
+FROM            golang:1.18.2-alpine as builder
 ARG             BUILD_ARG_VERSION
 RUN             apk add --no-cache git gcc musl-dev make
 ENV             GO111MODULE=on
