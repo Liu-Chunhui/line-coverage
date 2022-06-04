@@ -73,7 +73,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![line-coverage][demo]](https://github.com/Liu-Chunhui/line-coverage)
 
 ### Built With
 
@@ -185,6 +185,7 @@ Project Link: [https://github.com/Liu-Chunhui/line-coverage](https://github.com/
 
 [contributors-shield]: https://img.shields.io/github/contributors/Liu-Chunhui/line-coverage.svg?style=for-the-badge
 [contributors-url]: https://github.com/Liu-Chunhui/line-coverage/graphs/contributors
+[demo]: doc/demo/demo.gif
 [forks-shield]: https://img.shields.io/github/forks/Liu-Chunhui/line-coverage.svg?style=for-the-badge
 [forks-url]: https://github.com/Liu-Chunhui/line-coverage/network/members
 [stars-shield]: https://img.shields.io/github/stars/Liu-Chunhui/line-coverage.svg?style=for-the-badge
@@ -195,4 +196,3 @@ Project Link: [https://github.com/Liu-Chunhui/line-coverage](https://github.com/
 [license-url]: https://github.com/Liu-Chunhui/line-coverage/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/chunhui-liu-400a7652
-[product-screenshot]: images/screenshot.png
