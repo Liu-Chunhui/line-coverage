@@ -27,15 +27,14 @@
 <br />
 <div align="center">
   <a href="https://github.com/Liu-Chunhui/line-coverage">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="doc/image/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
-
+<h3 align="center">line-coverage</h3>
   <p align="center">
-    project_description
+    Scans and calculates code line-coverage for Golang projects
     <br />
-    <a href="https://github.com/Liu-Chunhui/line-coverage"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Liu-Chunhui/line-coverage/doc"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Liu-Chunhui/line-coverage">View Demo</a>
