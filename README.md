@@ -210,5 +210,5 @@ Project Link: [https://github.com/Liu-Chunhui/line-coverage](https://github.com/
 [license-shield]: https://img.shields.io/github/license/Liu-Chunhui/line-coverage.svg?style=for-the-badge
 [license-url]: https://github.com/Liu-Chunhui/line-coverage/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
+[linkedin-url]: https://linkedin.com/in/chunhui-liu-400a7652
 [product-screenshot]: images/screenshot.png
