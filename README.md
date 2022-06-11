@@ -56,7 +56,6 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
@@ -65,7 +64,6 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -90,51 +88,38 @@
 
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/Liu-Chunhui/line-coverage.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
+#### Download binary
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+- [Release page](https://github.com/Liu-Chunhui/line-coverage/releases)
+
+#### Install binary
+
+```
+go install github.com/Liu-Chunhui/line-coverage
+
+```
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Binary
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+1. `coverage` file is required for calculating line coverage. For example, when execute `make test` on [line-coverage](https://github.com/Liu-Chunhui/line-coverage), `./gen/coverage.out` as the coverage file will be generated
+1. `go.mod` with path need to be provided
+1. then execute `$ line-coverage -c ./gen/coverage.out -m go.mod`
+
+### Docker
+
+// TODO
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 
 ## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
 
 See the [open issues](https://github.com/Liu-Chunhui/line-coverage/issues) for a full list of proposed features (and known issues).
 
@@ -161,7 +146,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See [LICENSE](/LICENSE) for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -170,16 +155,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Project Link: [https://github.com/Liu-Chunhui/line-coverage](https://github.com/Liu-Chunhui/line-coverage)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-- []()
-- []()
-- []()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
