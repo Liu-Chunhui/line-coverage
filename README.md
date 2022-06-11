@@ -90,16 +90,16 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-#### Download binary
+- Download binary
 
-- [Release page](https://github.com/Liu-Chunhui/line-coverage/releases)
+  - [Release page](https://github.com/Liu-Chunhui/line-coverage/releases)
 
-#### Install binary
+- Install binary
 
-```
-go install github.com/Liu-Chunhui/line-coverage
+  ```
+  go install github.com/Liu-Chunhui/line-coverage
 
-```
+  ```
 
 <!-- USAGE EXAMPLES -->
 
