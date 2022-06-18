@@ -17,4 +17,4 @@ jobs:
           tag: "v$NEXT_MINOR_VERSION"
           version: "v$NEXT_MINOR_VERSION"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
