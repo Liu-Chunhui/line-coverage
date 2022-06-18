@@ -17,4 +17,4 @@ vendor
 .vscode
 gen/
 bin/
-dist/
+dist

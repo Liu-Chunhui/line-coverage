@@ -98,7 +98,6 @@ To get a local copy up and running follow these simple example steps.
 
   ```
   go install github.com/Liu-Chunhui/line-coverage
-
   ```
 
 <!-- USAGE EXAMPLES -->
