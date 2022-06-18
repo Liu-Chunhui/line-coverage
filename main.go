@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"time"
 
 	"github.com/sirupsen/logrus"
 	cli "github.com/urfave/cli/v2"
@@ -22,9 +23,10 @@ func main() {
 	}
 
 	app := &cli.App{
-		Version: Version,
-		Name:    "line-coverage",
-		Usage:   "scans the files which are described in the coverage profile(e.g. coverage.out) to calculates the line coverage",
+		Version:  Version,
+		Compiled: time.Now().UTC(),
+		Name:     "line-coverage",
+		Usage:    "scans the files which are described in the coverage profile(e.g. coverage.out) to calculates the line coverage",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "coverprofile",
