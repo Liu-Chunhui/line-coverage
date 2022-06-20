@@ -2,8 +2,7 @@
 # Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
-    - make clean
-    - make vendor
+    - go mod download
 
 builds:
   # You can have multiple builds defined as a yaml list
