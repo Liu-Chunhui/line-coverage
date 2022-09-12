@@ -6,7 +6,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.4
-	github.com/urfave/cli/v2 v2.10.2
+	github.com/urfave/cli/v2 v2.16.3
 )
 
 require (
