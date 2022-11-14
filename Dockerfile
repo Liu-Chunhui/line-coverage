@@ -16,7 +16,7 @@ RUN             make vendor
 RUN             make build
 
 # minimalist runtime
-FROM            alpine:3.16.2
+FROM            alpine:3.16.3
 ARG             BUILD_ARG_VERSION
 LABEL   org.label-schema.name="line-coverage" \
     org.label-schema.description="Analysed coverage profile file from Golang code to calculate and report line coverage result" \
