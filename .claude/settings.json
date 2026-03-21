@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/liuc11/Documents/github/line-coverage && go build ./... 2>&1 || true",
+            "statusMessage": "Verifying build..."
+          }
+        ]
+      }
+    ]
+  }
+}

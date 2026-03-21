@@ -45,6 +45,12 @@ func main() {
 				Aliases: []string{"d"},
 				Usage:   "enable debug model. More details is provided.",
 			},
+			&cli.Float64Flag{
+				Name:    "min-coverage",
+				Aliases: []string{"t"},
+				Usage:   "minimum coverage threshold (0-100). Exit with code 1 if overall coverage is below this value.",
+				Value:   0,
+			},
 		},
 		Action: func(c *cli.Context) error {
 			initLogging(c.Bool("debug"))
@@ -52,6 +58,7 @@ func main() {
 			err := report.Report(
 				c.String("coverprofile"),
 				c.String("gomod"),
+				c.Float64("min-coverage"),
 			)
 
 			if err != nil {

@@ -12,7 +12,7 @@ import (
 	"github.com/Liu-Chunhui/line-coverage/pkg/percentage"
 )
 
-func Report(coverprofile string, gomod string) error {
+func Report(coverprofile string, gomod string, minCoverage float64) error {
 	// load module name from go.mod file
 	module, err := loadModule(gomod)
 	if err != nil {
@@ -39,6 +39,10 @@ func Report(coverprofile string, gomod string) error {
 	overall := coverage.CalculateOverall(results)
 
 	fmt.Printf("Overall: %s\n", percentage.Display(overall))
+
+	if minCoverage > 0 && overall*100 < minCoverage {
+		return fmt.Errorf("coverage %s is below minimum %.1f%%", percentage.Display(overall), minCoverage)
+	}
 
 	return nil
 }
