@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd /Users/liuc11/Documents/github/line-coverage && go build ./... 2>&1 || true",
-            "statusMessage": "Verifying build..."
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; [[ \"$f\" == *.go ]] && gofmt -w \"$f\"; } 2>/dev/null || true",
+            "statusMessage": "Formatting Go file..."
           }
         ]
       }
