@@ -1,12 +1,11 @@
 package test
 
 import (
-	"io/ioutil"
 	"os"
 )
 
 func CreateTempFile(fileName string, content []byte) (f *os.File, err error) {
-	file, _ := ioutil.TempFile("", fileName)
+	file, _ := os.CreateTemp("", fileName)
 	defer func() {
 		_ = file.Close()
 	}()
