@@ -2,7 +2,7 @@
 ARG             BUILD_ARG_VERSION=latest
 
 # build
-FROM            golang:1.24-alpine as builder
+FROM            golang:1.26-alpine as builder
 ARG             BUILD_ARG_VERSION
 RUN             apk add --no-cache git gcc musl-dev make
 ENV             GO111MODULE=on
@@ -16,7 +16,7 @@ RUN             make vendor
 RUN             make build
 
 # minimalist runtime
-FROM            alpine:3.16.2
+FROM            alpine:3.23.3
 ARG             BUILD_ARG_VERSION
 LABEL   org.label-schema.name="line-coverage" \
     org.label-schema.description="Analysed coverage profile file from Golang code to calculate and report line coverage result" \
