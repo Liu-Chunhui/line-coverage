@@ -1,6 +1,6 @@
 module github.com/Liu-Chunhui/line-coverage
 
-go 1.19
+go 1.24
 
 require (
 	github.com/davecgh/go-spew v1.1.1
