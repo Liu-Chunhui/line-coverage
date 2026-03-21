@@ -15,7 +15,9 @@ func ReadLines(filename string, excludingPatterns ...string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() {
+		_ = file.Close()
+	}()
 
 	var lines []string
 	reader := bufio.NewReader(file)

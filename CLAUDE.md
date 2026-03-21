@@ -3,7 +3,7 @@
 A Go CLI tool that reads Go coverage profiles (`coverage.out`) and calculates line-by-line coverage metrics per file, with an overall percentage summary.
 
 ## Tech Stack
-- Go 1.19
+- Go 1.26
 - CLI framework: `github.com/urfave/cli/v2`
 - Logging: `github.com/sirupsen/logrus`
 - Testing: `github.com/stretchr/testify`
@@ -20,9 +20,11 @@ test/                    # Shared test utilities
 
 ## Common Commands
 ```bash
-go build ./...           # Build
+make build               # Build binary to ./bin/line-coverage
+go build ./...           # Build all packages
 go test ./...            # Run all tests
 go test ./... -v         # Verbose test output
+make ci                  # Run CI checks (lint + test)
 ```
 
 ## Language
