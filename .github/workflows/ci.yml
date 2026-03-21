@@ -14,9 +14,9 @@ jobs:
       matrix:
         golang: [1.24.x]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.golang }}
       - name: Run 'make ci' on Windows
@@ -32,13 +32,13 @@ jobs:
       OS: macos-latest
       GOLANG: ${{ matrix.golang }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.golang }}
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ matrix.golang }}-v1-${{ hashFiles('**/go.sum') }}
@@ -62,13 +62,13 @@ jobs:
       OS: ubuntu-latest
       GOLANG: ${{ matrix.golang }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.golang }}
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ matrix.golang }}-v1-${{ hashFiles('**/go.sum') }}
