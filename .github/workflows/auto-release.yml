@@ -1,0 +1,55 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest published release version
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST=$(gh release list --exclude-drafts --limit 1 --json tagName -q '.[0].tagName')
+          [ -z "$LATEST" ] && LATEST="v0.0.0"
+          echo "latest=$LATEST" >> $GITHUB_OUTPUT
+
+          VERSION="${LATEST#v}"
+          echo "major=$(echo $VERSION | cut -d. -f1)" >> $GITHUB_OUTPUT
+          echo "minor=$(echo $VERSION | cut -d. -f2)" >> $GITHUB_OUTPUT
+
+      - name: Determine version bump from commits
+        id: bump
+        run: |
+          LATEST="${{ steps.version.outputs.latest }}"
+          MAJOR="${{ steps.version.outputs.major }}"
+          MINOR="${{ steps.version.outputs.minor }}"
+
+          COMMITS=$(git log "${LATEST}..HEAD" --pretty=format:"%s%n%b")
+
+          if echo "$COMMITS" | grep -qE '^[a-z]+(\([^)]+\))?!:|BREAKING CHANGE'; then
+            echo "new_version=v$((MAJOR + 1)).0.0" >> $GITHUB_OUTPUT
+            echo "bump_type=MAJOR" >> $GITHUB_OUTPUT
+          else
+            echo "new_version=v${MAJOR}.$((MINOR + 1)).0" >> $GITHUB_OUTPUT
+            echo "bump_type=MINOR" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.bump.outputs.new_version }}" \
+            --title "${{ steps.bump.outputs.new_version }}" \
+            --generate-notes \
+            --latest
