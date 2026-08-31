@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	github.com/davecgh/go-spew v1.1.1
-	github.com/sirupsen/logrus v1.10.1
+	github.com/sirupsen/logrus v1.10.2
 	github.com/stretchr/testify v1.12.1
 	github.com/urfave/cli/v2 v2.27.7
 )
